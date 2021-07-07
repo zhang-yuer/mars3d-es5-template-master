@@ -1,8 +1,8 @@
-"use script"; //开发环境建议开启严格模式
+'use script' //开发环境建议开启严格模式
 
 //判断webgl支持
 if (!mars3d.Util.webglreport()) {
-  mars3d.Util.webglerror();
+  mars3d.Util.webglerror()
 }
 
 //读取 config.json 配置文件
@@ -18,38 +18,36 @@ fetch(configUrl)
     }
   })
   .then((json) => {
-    initMap(json.map3d); //构建地图 
+    initUI()
+    initMap(json.map3d) //构建地图
   })
   .catch(function (error) {
     console.log('加载JSON出错', error)
     haoutil.alert(error?.message, '出错了')
   })
 
-var map;
+var map
 
 function initMap(options) {
-
   var mapOptions = mars3d.Util.merge(options, {
     scene: {
       sceneMode: Cesium.SceneMode.SCENE3D,
-      mapMode2D: Cesium.MapMode2D.INFINITE_SCROLL,
-     },
-
+      mapMode2D: Cesium.MapMode2D.INFINITE_SCROL,
+    },
   })
   //创建三维地球场景
-  map = new mars3d.Map("mars3dContainer", mapOptions);
-
+  map = new mars3d.Map('mars3dContainer', mapOptions)
 
   //以下为演示代码
 
   //创建entity图层
-  let graphicLayer = new mars3d.layer.GraphicLayer();
-  map.addLayer(graphicLayer);
+  let graphicLayer = new mars3d.layer.GraphicLayer()
+  map.addLayer(graphicLayer)
 
   //2.在layer上绑定监听事件
   graphicLayer.on(mars3d.EventType.click, function (event) {
-    console.log("监听layer，单击了矢量对象", event);
-  });
+    console.log('监听layer，单击了矢量对象', event)
+  })
   //   graphicLayer.on(mars3d.EventType.mouseOver, function (event) {
   //     console.log("监听layer，鼠标移入了矢量对象", event);
   //   });
@@ -60,365 +58,44 @@ function initMap(options) {
   //可在图层上绑定popup,对所有加到这个图层的矢量数据都生效
   graphicLayer.bindPopup(
     function (event) {
-      return "我是layer上绑定的Popup";
+      return '我是layer上绑定的Popup'
     },
     {
       anchor: [0, -10],
     }
-  );
+  )
 
   //可在图层绑定右键菜单,对所有加到这个图层的矢量数据都生效
   graphicLayer.bindContextMenu([
     {
-      text: "删除对象",
-      iconCls: "fa fa-trash-o",
+      text: '删除对象',
+      iconCls: 'fa fa-trash-o',
       callback: function (e) {
-        let graphic = e.graphic;
+        let graphic = e.graphic
         if (graphic) {
-          graphicLayer.removeGraphic(graphic);
+          graphicLayer.removeGraphic(graphic)
         }
       },
     },
-  ]);
+  ])
 
   //加一些演示数据
-  addGraphic_e01(graphicLayer);
-  addGraphic_e02(graphicLayer);
-  addGraphic_e03(graphicLayer);
-  addGraphic_e04(graphicLayer);
-  addGraphic_e05(graphicLayer);
-  addGraphic_e06(graphicLayer);
-  addGraphic_e07(graphicLayer);
-  addGraphic_e08(graphicLayer);
-  addGraphic_e09(graphicLayer);
-  addGraphic_e10(graphicLayer);
-  addGraphic_e11(graphicLayer);
-  addGraphic_e12(graphicLayer);
-  addGraphic_e13(graphicLayer);
-  addGraphic_e14(graphicLayer);
-  addGraphic_e15(graphicLayer);
-
+  addGraphic_e01(graphicLayer)
+  addGraphic_e02(graphicLayer)
+  addGraphic_e03(graphicLayer)
+  addGraphic_e04(graphicLayer)
+  addGraphic_e05(graphicLayer)
+  addGraphic_e06(graphicLayer)
+  addGraphic_e07(graphicLayer)
+  addGraphic_e08(graphicLayer)
+  addGraphic_e09(graphicLayer)
+  addGraphic_e10(graphicLayer)
+  addGraphic_e11(graphicLayer)
+  addGraphic_e12(graphicLayer)
+  addGraphic_e13(graphicLayer)
+  addGraphic_e14(graphicLayer)
+  addGraphic_e15(graphicLayer)
 }
-// 是否显示太阳
-function sun(name, value) {
-  var options = {}
-  options[name] = value
-  map.setSceneOptions(options)
-
-}
-// 是否显示月亮
-function moon(name, value) {
-  var options = {}
-  options[name] = value
-  map.setSceneOptions(options)
-}
-
-//是否显示天空盒子
-function skyBox(name, value) {
-  var options = {}
-  options[name] = value
-  map.setSceneOptions(options)
-}
-
-//是否显示大气外光圈
-function skyAtmosphere(name, value) {
-  var options = {}
-  options[name] = value
-  map.setSceneOptions(options)
-}
-
-// 雾化效果
-function fogs(name, value) {
-  var options = {}
-  options[name] = value
-  map.setSceneOptions(options)
-}
-
-//快速抗锯齿
-function fxaa(name, value) {
-  var options = {}
-  options[name] = value
-  map.setSceneOptions(options)
-}
-
-//是否关闭高动态渲染
-function highDynamicRange(name, value) {
-  var options = {}
-  options[name] = value
-  map.setSceneOptions(options)
-}
-//是否启用日照阴影
-function shadows(name, value) {
-  var options = {}
-  options[name] = value
-  map.setSceneOptions(options)
-}
-//请求渲染模型
-function renderMode(name, value) {
-  var options = {}
-  options[name] = value
-  map.setSceneOptions(options)
-}
-//是否启用深度监测
-function terrain(name, value) {
-  var options = {}
-  options[name] = value
-  var dt = options.depthTestAgainstTerrain
-  console.log(dt);
-
-  map.setSceneOptions({
-    globe: {
-      depthTestAgainstTerrain: dt
-    }
-  })
-}
-//是否在地球上绘制的地面大气
-function groundAtmosphere(name, value) {
-  var options = {}
-  options[name] = value
-  var ga = options.showGroundAtmosphere
-  map.setSceneOptions({
-    globe: {
-      showGroundAtmosphere: ga
-    }
-
-  })
-}
-// 是否显示昼夜区域
-function enableLight(name, value) {
-  var options = {}
-  options[name] = value
-  var en = options.enableLighting
-  map.setSceneOptions({
-    globe: {
-      enableLighting: en
-    }
-
-  })
-}
-
-// 为false时 解除在南北极区域鼠标操作限制
-function constrained(name, value) {
-  var options = {}
-  options[name] = value
-  var co = options.constrainedAxis
-  map.setSceneOptions({
-    cameraController: {
-      constrainedAxis: co
-    }
-
-  })
-}
-// 2D和3D视图下，是否允许用户旋转相机
-function rotate(name, value) {
-  var options = {}
-  options[name] = value
-  var rota= options.enableRotate
-  map.setSceneOptions({
-    cameraController: {
-      constrainedAxis: rota
-    }
-
-  })
-}
-// 2D和哥伦布视图下，是否允许用户平移地图
-function translate(name, value) {
-  var options = {}
-  options[name] = value
-  var tran = options.enableTranslate
-  map.setSceneOptions({
-    cameraController: {
-      enableTranslate: tran
-    }
-
-  })
-}
-//3D和哥伦布视图下，是否允许用户倾斜相机
-function tilt(name, value) {
-  var options = {}
-  options[name] = value
-  var tilt = options.enableTilt
-  map.setSceneOptions({
-    cameraController: {
-      enableTilt: tilt
-    }
-
-  })
-}
-//enableZoom 是否允许 用户放大和缩小视图 
-function zoom(name, value) {
-  var options = {}
-  options[name] = value
-  var zo = options.enableZoom
-  map.setSceneOptions({
-    cameraController: {
-      enableZoom: zo
-    }
-
-  })
-}
-//enableCollisionDetection 是否允许 地形相机的碰撞检测
-function collisionDetection(name, value) {
-  var options = {}
-  options[name] = value
-  var dete = options.enableCollisionDetection
-  map.setSceneOptions({
-    cameraController: {
-      enableCollisionDetection: dete
-    }
-
-  })
-}
-
-//空间背景颜色
-$('#colorStyle').change(function () {
-  $('#colorStyle').css('background-color', this.value);
-  identityColor = this.value
-  map.setSceneOptions({
-    backgroundColor: identityColor
-  })
-
-})
-//初始化场景模式
-// $('#select').change(function () {
-//   var name = $(this).val()
-//   if (name == '2D') {
-//     map.scene.morphTo2D()
-//   }
-//   else if (name == '2.5D') {
-//     map.scene.morphToColumbusView()
-//   }
-//   else if (name == '3D') {
-//     map.scene.morphTo3D()
-//   }
-
-// })
-$('#select').change(function () {
-    var name = $(this).val()
-    if (name == '2D') {
-      map.setSceneOptions({
-        sceneMode: Cesium.SceneMode.SCENE2D	//TODO：这个无效
-      })
-    }
-    else if (name == '2.5D') {
-      map.scene.morphToColumbusView()
-    }
-    else if (name == '3D') {
-      map.scene.morphTo3D()
-    }
-  
-  })
-// 确定2D地图是可旋转的还是可以在水平方向无限滚动
-$('#rot').change(function () {
-  var vals = $(this).val()
-  if(vals == 'rotate'){
-    map.setSceneOptions({
-      mapMode2D: Cesium.MapMode2D.ROTATE	
-    })
-  }
-  if(vals == 'roll'){
-    map.setSceneOptions({
-      mapMode2D: Cesium.MapMode2D.INFINITE_SCROLL	
-    })
-  }
-
-})
-
-//地形夸张倍数默认为1
-$('#terrain').range({
-onChange: function (value, bfb) {
-    map.scene.globe.terrainExaggeration = value
-  },
-})
-
-//地球背景颜色
-$('#baseColor').change(function () {
-  $('#baseColor').css('background-color', this.value)
-  var base = this.value
-  map.setSceneOptions({
-    globe: {
-      baseColor: base
-    }
-  })
-})
-// 鼠标滚轮放大步长参数
-$('#step').range({
-  onChange: function (set,bfb){
-    map.setSceneOptions({
-          cameraController: {
-            zoomFactor: set
-          }
-        })
-  }
-})
-// $('#step').change(function() {
-//   var name = $(this).val()
-//   map.setSceneOptions({
-//     cameraController: {
-//       zoomFactor: name
-//     }
-//   })
-  
-// })
-//变焦时相机位置的最小量级
-$('#minimumZoom').range({
-  onChange: function(min, bfb){
-    map.setSceneOptions({
-      cameraController: {
-        minimumZoomDistance: min
-      }
-  
-    })
-    
-  }
-})
-//变焦时相机位置的最大量级
-$('#maximumZoom').range({
-  onChange: function(max, bfb){
-    map.setSceneOptions({
-      cameraController: {
-        maximumZoomDistance: max
-      }
-  
-    })
-    
-  }
-})
-// 低于此高度时绕鼠标键绕圈，大于时绕视图中心点绕圈 默认值为80000
-$('#minimumCollision').range({
-  onChange: function(hight, bfb){
-    map.setSceneOptions({
-      cameraController: {
-        minimumCollisionTerrainHeight: hight
-      }
-  
-    })
-    
-  }
-})
-// 让面板随着鼠标的移动而移动
-$('.dark').ready(function () {
-  $('.open').on('mousedown', function (e) {
-      $(this).css('cursor', 'move'); //改变鼠标形状
-      var off = $(this).offset(); //方块的绝对偏移量
-      var x = e.pageX - off.left;
-      var y = e.pageY - off.top;
-
-      $('.dark').bind('mousemove', function (ev) {
-          $('.dark').stop();
-          var lastx = ev.pageX - x;
-          var lasty = ev.pageY - y;
-          $('.dark').animate({ left: lastx + 'px', top: lasty + 'px' }, 10);
-      })
-
-  })
-  $('.dark').on('mouseup', function () {
-      $('.dark').css('cursor', 'default');
-      $(this).unbind('mousemove')
-  })
-})
-
-
 
 function addGraphic_e01(graphicLayer) {
   let graphic = new mars3d.graphic.LabelEntity({
@@ -671,3 +348,114 @@ function addGraphic_e15(graphicLayer) {
   graphicLayer.addGraphic(graphic) //还可以另外一种写法: graphic.addTo(graphicLayer)
 }
 
+//=================================================
+
+function initUI() {
+  //空间背景颜色
+  $('#colorStyle').change(function () {
+    $('#colorStyle').css('background-color', this.value)
+    let identityColor = this.value
+    setSceneOptions('backgroundColor', identityColor)
+  })
+
+  // TODO:初始场景模式,没有效果
+  $('#select').change(function () {
+    let name = $(this).val()
+    setSceneOptions('sceneMode', name)
+  })
+
+  // 确定2D地图是可旋转的还是可以在水平方向无限滚动
+  $('#rot').change(function () {
+    let value = $(this).val()
+    setSceneOptions('mapMode2D', value)
+  })
+
+  //地形夸张倍数,默认为1
+  $('#terrain').range({
+    onChange: function (value, bfb) {
+      map.scene.globe.terrainExaggeration = value
+    },
+  })
+
+  //地球背景颜色
+  $('#baseColor').change(function () {
+    $('#baseColor').css('background-color', this.value)
+    let base = this.value
+    console.log(base)
+    setSceneGlobeOptions('baseColor', base)
+  })
+  // 鼠标滚轮放大步长参数
+  $('#step').range({
+    onChange: function (set, bfb) {
+      let keys = $('#step').attr('data-name')
+      setSceneCameraControllerOptions(keys, set)
+    },
+  })
+
+  //变焦时相机位置的最小量级
+  $('#minimumZoom').range({
+    onChange: function (min, bfb) {
+      let keys = $('#minimumZoom').attr('data-name')
+      setSceneCameraControllerOptions(keys, min)
+    },
+  })
+
+  //变焦时相机位置的最大量级
+  $('#maximumZoom').range({
+    onChange: function (max, bfb) {
+      let key = $('#maximumZoom').attr('data-name')
+      setSceneCameraControllerOptions(key, max)
+    },
+  })
+
+  // 低于此高度时绕鼠标键绕圈，大于时绕视图中心点绕圈 默认值为80000
+  $('#minimumCollision').range({
+    onChange: function (hight, bfb) {
+      let num = $('#minimumCollision').attr('data-name')
+      setSceneCameraControllerOptions(num, hight)
+    },
+  })
+
+  // 让面板随着鼠标的移动而移动
+  $('.dark').ready(function () {
+    $('.open').on('mousedown', function (e) {
+      $(this).css('cursor', 'move') //改变鼠标形状
+      var off = $(this).offset() //方块的绝对偏移量
+      var x = e.pageX - off.left
+      var y = e.pageY - off.top
+
+      $('.dark').bind('mousemove', function (ev) {
+        $('.dark').stop()
+        var lastx = ev.pageX - x
+        var lasty = ev.pageY - y
+        $('.dark').animate({ left: lastx + 'px', top: lasty + 'px' }, 10)
+      })
+    })
+    $('.dark').on('mouseup', function () {
+      $('.dark').css('cursor', 'default')
+      $(this).unbind('mousemove')
+    })
+  })
+}
+
+function setSceneOptions(name, value) {
+  var options = {}
+  options[name] = value
+  map.setSceneOptions(options)
+}
+
+function setSceneGlobeOptions(name, value) {
+  var options = {
+    globe: {},
+  }
+  options.globe[name] = value
+  map.setSceneOptions(options)
+}
+
+function setSceneCameraControllerOptions(name, value) {
+  var options = {
+    cameraController: {},
+  }
+  options.cameraController[name] = value
+  map.setSceneOptions(options)
+}
