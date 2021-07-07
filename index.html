@@ -1,0 +1,295 @@
+﻿<!DOCTYPE html>
+<html class="no-js css-menubar" lang="zh-cn">
+
+<head>
+    <title> Mars3D最简项目模版 - ES5传统版</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <!-- 移动设备 viewport -->
+    <meta name="viewport"
+        content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no,minimal-ui">
+    <meta name="author" content="火星科技 http://mars3d.cn ">
+    <!-- 360浏览器默认使用Webkit内核 -->
+    <meta name="renderer" content="webkit">
+    <!-- Chrome浏览器添加桌面快捷方式（安卓） -->
+    <link rel="icon" type="image/png" href="img/favicon/favicon.png">
+    <meta name="mobile-web-app-capable" content="yes">
+    <!-- Safari浏览器添加到主屏幕（IOS） -->
+    <link rel="icon" sizes="192x192" href="img/favicon/apple-touch-icon.png">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-title" content="火星科技 MarsGIS">
+    <!-- Win8标题栏及ICON图标 -->
+    <link rel="apple-touch-icon-precomposed" href="img/favicon/apple-touch-icon.png">
+    <meta name="msapplication-TileImage" content="img/favicon/app-icon72x72@2x.png">
+    <meta name="msapplication-TileColor" content="#62a8ea">
+
+    <!-- 第三方lib-->
+    <script type="text/javascript" src="lib/include-lib.js" libpath="lib/"
+        include="jquery,jquery.minicolors,jquery.range,font-awesome,haoutil,turf,mars3d"></script>
+
+    <!--第三方lib，非必须-->
+    <link rel="stylesheet" href="http://mars3d.cn/lib/fonts/font-awesome/css/font-awesome.min.css">
+    <script type="text/javascript" src="http://mars3d.cn/lib/hao/haoutil.js"></script>
+
+    <!--依赖包-->
+    <script type="text/javascript" src="http://mars3d.cn/lib/turf/turf.min.js"></script>
+    <link rel="stylesheet" href="http://mars3d.cn/lib/Cesium/Widgets/widgets.css">
+    <script type="text/javascript" src="http://mars3d.cn/lib/Cesium/Cesium.js"></script>
+    <script type="text/javascript" src="http://mars3d.cn/lib/mars3d/plugins/compatible/cesium-version.js"></script>
+
+    <!--mars3d-->
+    <link rel="stylesheet" href="http://mars3d.cn/lib/mars3d/mars3d.css">
+    <script type="text/javascript" src="http://mars3d.cn/lib/mars3d/mars3d.js"></script>
+
+    <link href="css/style.css" rel="stylesheet" />
+    <link href="css/index.css" rel="stylesheet">
+</head>
+
+<body>
+    <div id="mars3dContainer" class="mars3d-container"></div>
+    <div class="dark">
+        <div class="open">属性编辑</div>
+        <!-- 各种属性表格 -->
+        <div class="mp_attr">
+            <table class="mars-table">
+                <tbody>
+                    <tr>
+                        <td class="nametd">是否显示太阳</td>
+                        <td data-name="sun">
+                            <input type="radio" data-value="true" name="sun" onclick="sun('showSun',true)">是
+                            <input type="radio" data-value="false" name="sun" onclick="sun('showSun',false)">否
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="nametd">是否显示月亮</td>
+                        <td data-name="moon">
+                            <input type="radio" data-value="true" name="moon" onclick="moon('showMoon',true)">是
+                            <input type="radio" data-value="false" name="moon" onclick="moon('showMoon',false)">否
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="nametd">是否显示天空盒子</td>
+                        <td data-name="skyBox">
+                            <input type="radio" data-value="true" name="skyBox" onclick="skyBox('showSkyBox',true)">是
+                            <input type="radio" data-value="false" name="skyBox" onclick="skyBox('showSkyBox',false)">否
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="nametd">大气外光圈</td>
+                        <td data-name="SkyAtmosphere">
+                            <input type="radio" data-value="true" name="skyAt"
+                                onclick="skyAtmosphere('showSkyAtmosphere', true)">是
+                            <input type="radio" data-value="false" name="skyAt"
+                                onclick="skyAtmosphere('showSkyAtmosphere',false)">否
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="nametd">雾化效果</td>
+                        <td data-name="fog">
+                            <input type="radio" data-value="true" name="fog" onclick="fogs('fog',true)">是
+                            <input type="radio" data-value="false" name="fog" onclick="fogs('fog',false)">否
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="nametd">快速抗锯齿</td>
+                        <td data-name="fxaa">
+                            <input type="radio" data-value="true" name="fxaa" checked onclick="fxaa('fxaa',true)">是
+                            <input type="radio" data-value="false" name="fxaa" onclick="fxaa('fxaa',false)">否
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="nametd">是否关闭高动态渲染</td>
+                        <td data-name="highDynamicRange">
+                            <input type="radio" data-value="true" name="high"
+                                onclick="highDynamicRange('highDynamicRange',true)">是
+                            <input type="radio" data-value="false" name="high"
+                                onclick="highDynamicRange('highDynamicRange',false)">否
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="nametd">空间背景颜色</td>
+                        <td>
+                            <input type="color" id="colorStyle" style="width: 60px;">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="nametd">初始场景模式</td>
+                        <td>
+                            <select id="select">
+                                <option value="3D">3D显示</option>
+                                <option value="2D">2D显示</option>
+                                <option value="2.5D">2.5D显示</option>
+                            </select>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td class="nametd">是否启用日照阴影</td>
+                        <td data-name="shadows">
+                            <input type="radio" data-value="true" name="shadows" onclick="shadows('shadow',true)">是
+                            <input type="radio" data-value="false" name="shadows" checked
+                                onclick="shadows('shadow',false)">否
+                        </td>
+                    </tr>
+                    <!-- mapMode2D 确定2D地图是可旋转的还是可以在水平方向无限滚动-->
+                    <tr>
+                        <td class="nametd">旋转或者无限翻滚</td>
+                        <td>
+                            <select id="rot">
+                                <option value="rotate">可旋转</option>
+                                <option value="roll">无限滚动</option>
+                            </select>
+
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td class="nametd">请求渲染模型</td>
+                        <td data-name="renderMode">
+                            <input type="radio" name="mode" data-value="true"
+                                onclick="renderMode('requestRenderMode',true)">是
+                            <input type="radio" name="mode" data-value="false" checked
+                                onclick="renderMode('requestRenderMode',false)">否
+                        </td>
+                    </tr>
+                    <!-- 地球属性 -->
+                    <tr>
+                        <td class="nametd">地形夸张倍数</td>
+                        <td>
+                            <input id="terrain" type="range" min="1" max="80" value="1" step="1" style="width: 80px;"
+                                onchange="changeVal()">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="nametd">地球背景色</td>
+                        <td>
+                            <input type="color" id="baseColor" value="#546a53" style="width: 60px;">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="nametd">是否启用深度监测</td>
+                        <td data-name="depth">
+                            <input type="radio" name="depthTest" data-value="true"
+                                onclick="terrain('depthTestAgainstTerrain',true)">是
+                            <input type="radio" name="depthTest" data-value="false" checked
+                                onclick="terrain('depthTestAgainstTerrain',false)">否
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td class="nametd">是否在地球上绘制的地面大气</td>
+                        <td data-name="ground">
+                            <input type="radio" name="atmosphere" data-value="true" checked
+                                onclick="groundAtmosphere('showGroundAtmosphere',true)">是
+                            <input type="radio" name="atmosphere" data-value="false"
+                                onclick="groundAtmosphere('showGroundAtmosphere',false)">否
+                        </td>
+
+                    </tr>
+                    
+                    <tr>
+                        <td class="nametd">是否显示昼夜区域</td>
+                        <td data-name="lighting">
+                            <input type="radio" name="light" data-value="true" 
+                                onclick="enableLight('enableLighting',true)">是
+                            <input type="radio" name="light" data-value="false" checked
+                                onclick="enableLight('enableLighting',false)">否
+                        </td>
+                    </tr>
+    
+                    <tr>
+                        <td class="nametd">鼠标滚轮放大步长参数</td>
+                        <td>
+                                <input id="step" type="range" min="1" max="50" value="1" step="1" style="width: 80px;">
+                        </td>
+                    </tr>
+                    <!-- 南北极区域鼠标操作限制  constrainedAxis-->
+                    <tr>
+                        <td class="nametd">是否显示昼夜区域</td>
+                        <td data-name="axis">
+                            <input type="radio" name="axis" data-value="true" checked
+                                onclick="constrained('constrainedAxis',true)">是
+                            <input type="radio" name="axis" data-value="false" 
+                                onclick="constrained('constrainedAxis',false)">否
+                        </td>
+                    </tr>
+                    <!-- 变焦时相机位置 minimumZoomDistance maximumZoomDistance -->
+                    <tr>
+                        <td class="nametd">变焦时相机位置的最小量级</td>
+                        <td>
+                            <input id="minimumZoom" type="range" min="1" max="50000000" value="1" step="100" style="width: 80px;">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="nametd">变焦时相机位置的最大值</td>
+                        <td>
+                            <input id="maximumZoom" type="range" min="50000000" max="100000000" value="1" step="100" style="width: 80px;">
+                        </td>
+                    </tr>
+                    <!-- 80000 minimumCollisionTerrainHeight 低于此高度时绕鼠标键绕圈，大于时绕视图中心点绕圈。 -->
+                    <tr>
+                        <td class="nametd">绕鼠标键绕圈或绕视图中心点绕圈</td>
+                        <td>
+                            <input id="minimumCollision" type="range" min="1" max="160000" value="80000" step="100" style="width: 80px;">
+                        </td>
+                    </tr>
+                    <!-- enableRotate 2D和3D视图下，是否允许用户旋转相机 -->
+                    <tr>
+                        <td class="nametd">是否允许用户旋转相机</td>
+                        <td data-name="rotate">
+                            <input type="radio" name="rotate" data-value="true" checked
+                                onclick="rotate('enableRotate',true)">是
+                            <input type="radio" name="rotate" data-value="false" 
+                                onclick="rotate('enableRotate',false)">否
+                        </td>
+                    </tr>
+                    <!-- enableTranslate 2D和哥伦布视图下，是否允许用户平移地图 -->
+                    <tr>
+                        <td class="nametd">是否允许用户平移地图</td>
+                        <td data-name="translate">
+                            <input type="radio" name="translate" data-value="true" checked
+                                onclick="translate('enableTranslate',true)">是
+                            <input type="radio" name="translate" data-value="false" 
+                                onclick="translate('enableTranslate',false)">否
+                        </td>
+                    </tr>
+                    <!-- enableTilt 3D和哥伦布视图下，是否允许用户倾斜相机 -->
+                    <tr>
+                        <td class="nametd">是否允许用户倾斜相机</td>
+                        <td data-name="tilt">
+                            <input type="radio" name="tilt" data-value="true" checked
+                                onclick="tilt('enableTilt',true)">是
+                            <input type="radio" name="tilt" data-value="false" 
+                                onclick="tilt('enableTilt',false)">否
+                        </td>
+                    </tr>
+                    <!-- enableZoom 是否允许 用户放大和缩小视图 -->
+                    <tr>
+                        <td class="nametd">是否允许用户放大和缩小视图</td>
+                        <td data-name="zoom">
+                            <input type="radio" name="zooms" data-value="true" checked
+                                onclick="zoom('enableZoom',true)">是
+                            <input type="radio" name="zooms" data-value="false" 
+                                onclick="zoom('enableZoom',false)">否
+                        </td>
+                    </tr>
+                    <!-- enableCollisionDetection 是否允许 地形相机的碰撞检测以下是Cesium.Clock时钟相关参数 -->
+                    <tr>
+                        <td class="nametd">是否允许地形相机的碰撞检测</td>
+                        <td data-name="dete">
+                            <input type="radio" name="detection" data-value="true" checked
+                                onclick="collisionDetection('enableCollisionDetection',true)">是
+                            <input type="radio" name="detection" data-value="false" 
+                                onclick="collisionDetection('enableCollisionDetection',false)">否
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <!--业务代码-->
+    <script src="js/index.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,41 @@
+.dark {
+    position: absolute;
+    top: 5px;
+    right: 50px;
+    width: 250px;
+    height: 100%;
+    overflow: auto;
+    border: 1px solid rgba(32, 160, 255, 0.3);
+    background-color: rgba(63, 72, 84, 0.7);
+}
+.open {
+    width: 100%;
+    padding-left: 5px;
+    height: 50px;
+    line-height: 50px;
+    margin-left: 2px;
+    font-size: 16px;
+    border-bottom: 1px solid rgba(32, 160, 255, 0.3)
+    
+}
+ select {
+    border-radius: 4px;
+    background-color: rgba(63, 72, 84, 0.7);;
+    color: #fff;
+}
+.radio_info {
+    float: left;
+}
+
+/* 表格css样式 */
+.mp_attr table tr td{
+    padding: 5px 5px 5px 10px;
+    text-align: left;
+    border: 1px solid #cde1de;
+    max-width: 150px;
+    word-wrap: break-word;
+    
+}
+.mp_attr .mars-table .nametd {
+    width: 60%;
+}
